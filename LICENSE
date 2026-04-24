@@ -1,24 +1,79 @@
-This is free and unencumbered software released into the public domain.
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
+---
 
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
+## 📊 الملف 2: `Penetration_Testing_Report.md` (لتحويله إلى PDF)
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+```markdown
+# تقرير اختبار الاختراق  
+## AI + Burp Suite Integration
 
-For more information, please refer to <https://unlicense.org>
+---
+
+### المعلومات العامة
+
+| العنصر | التفاصيل |
+|--------|----------|
+| **اسم المشروع** | دمج الذكاء الاصطناعي مع Burp Suite |
+| **تاريخ الاختبار** | 24 أبريل 2026 |
+| **البيئة المستهدفة** | Windows 11 + Flask Server |
+| **أداة الاختراق** | Burp Suite Community |
+| **أداة الذكاء الاصطناعي** | AI Request Analyzer |
+
+---
+
+### ملخص تنفيذي
+
+تم تنفيذ اختبار اختراق أخلاقي على تطبيق ويب تم تطويره خصيصًا لأغراض تعليمية. الهدف هو دمج أداة ذكاء اصطناعي مع Burp Suite لتحديد الثغرات الأمنية تلقائيًا. تم اكتشاف **3 ثغرات خطيرة** (Critical/High) تتطلب المعالجة الفورية.
+
+---
+
+### الثغرات المكتشفة بالتفصيل
+
+#### 1. Path Traversal (Critical)
+
+| الخاصية | القيمة |
+|----------|--------|
+| **الموقع** | `/download_photo/<filename>` |
+| **الخطورة** | 🔴 Critical |
+| **الوصف** | المهاجم يمكنه قراءة أي ملف على السيرفر باستخدام `../` |
+| **الدليل** | نجح الطلب `GET /download_photo/..\captured_credentials.txt` |
+| **الإصلاح** | تنقية المدخلات، استخدام `secure_filename` |
+
+#### 2. Information Disclosure - /credentials (Critical)
+
+| الخاصية | القيمة |
+|----------|--------|
+| **الموقع** | `/credentials` |
+| **الخطورة** | 🔴 Critical |
+| **الوصف** | كشف أسماء المستخدمين وكلمات المرور بنص عادي |
+| **الإصلاح** | إزالة الواجهة أو إضافة مصادقة |
+
+#### 3. Information Disclosure - /captured_photos (High)
+
+| الخاصية | القيمة |
+|----------|--------|
+| **الموقع** | `/captured_photos` |
+| **الخطورة** | 🟠 High |
+| **الوصف** | كشف قائمة بجميع الصور المرفوعة |
+| **الإصلاح** | إضافة صلاحيات الوصول |
+
+---
+
+### التوصيات الأمنية
+
+1. **إزالة واجهات الكشف العام** (`/credentials`, `/captured_photos`)
+2. **تنقية المدخلات** لمنع Path Traversal
+3. **إيقاف Debug Mode** في الإنتاج
+4. **تفعيل HTTPS** لتشفير الاتصالات
+5. **تطبيق مصادقة** على جميع الواجهات الحساسة
+
+---
+
+### الخاتمة
+
+تم بنجاح دمج الذكاء الاصطناعي مع Burp Suite لاكتشاف الثغرات الأمنية. المشروع يثبت فعالية استخدام AI في أتمتة وتحليل نتائج اختبار الاختراق.
+
+---
+
+**إعداد:** [اسمك]  
+**للاستخدام التعليمي فقط**
